@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RateMySetup</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span>Rate</span>MySetup
+        </div>
+
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#criar">Criar Setup</a>
+            <a href="#ranking">Ranking</a>
+        </nav>
+
+        <button id="temaBtn">☀️</button>
+    </header>
+
+
+    <main>
+
+        <!-- HERO -->
+        <section id="inicio" class="hero">
+
+            <div class="hero-text">
+
+                <div class="tag-top">
+                    🔥 SUA CENTRAL DE SETUPS
+                </div>
+
+                <h1>
+                    Monte.<br>
+                    Avalie.<br>
+                    <span>Mostre seu setup.</span>
+                </h1>
+
+                <p>
+                    Crie seu setup, descubra a nota dele
+                    e compare com outros setups.
+                </p>
+
+                <div class="botoes">
+
+                    <a href="#criar" class="btn principal">
+                        + Criar meu setup
+                    </a>
+
+                    <a href="#ranking" class="btn secundario">
+                        Ver ranking
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-card">
+
+                <div class="janela">
+
+                    <div class="bolinhas">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="nota-exemplo">
+                        8.8
+                    </div>
+
+                    <div class="texto-nota">
+                        NOTA DO SETUP
+                    </div>
+
+                    <div class="barra-area">
+
+                        <div>
+                            <label>
+                                Gaming
+                                <b>9.3</b>
+                            </label>
+
+                            <div class="barra">
+                                <span style="width:93%"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>
+                                Trabalho
+                                <b>8.6</b>
+                            </label>
+
+                            <div class="barra">
+                                <span style="width:86%"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>
+                                Visual
+                                <b>9.0</b>
+                            </label>
+
+                            <div class="barra">
+                                <span style="width:90%"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CRIAR SETUP -->
+        <section id="criar" class="section">
+
+            <div class="titulo-secao">
+
+                <div>
+                    <small>SEU PROJETO</small>
+
+                    <h2>
+                        Crie seu setup
+                    </h2>
+                </div>
+
+                <p>
+                    Preencha as peças e veja a avaliação
+                    do seu computador.
+                </p>
+
+            </div>
+
+
+            <div class="criador">
+
+                <!-- FORMULÁRIO -->
+                <form id="setupForm" class="card">
+
+                    <div class="form-title">
+
+                        <h3>
+                            Informações
+                        </h3>
+
+                        <span id="status">
+                            Novo setup
+                        </span>
+
+                    </div>
+
+
+                    <label>
+                        Nome do setup
+
+                        <input
+                            id="nome"
+                            type="text"
+                            placeholder="Ex: Setup Gamer do Leandro"
+                            required
+                        >
+                    </label>
+
+
+                    <div class="duas-colunas">
+
+                        <label>
+                            Processador
+
+                            <input
+                                id="cpu"
+                                type="text"
+                                placeholder="Ex: Ryzen 5 5600"
+                            >
+                        </label>
+
+
+                        <label>
+                            Placa de vídeo
+
+                            <input
+                                id="gpu"
+                                type="text"
+                                placeholder="Ex: RTX 4060"
+                            >
+                        </label>
+
+                    </div>
+
+
+                    <div class="duas-colunas">
+
+                        <label>
+                            Memória RAM
+
+                            <input
+                                id="ram"
+                                type="text"
+                                placeholder="Ex: 16 GB DDR4"
+                            >
+                        </label>
+
+
+                        <label>
+                            Armazenamento
+
+                            <input
+                                id="storage"
+                                type="text"
+                                placeholder="Ex: SSD 1 TB"
+                            >
+                        </label>
+
+                    </div>
+
+
+                    <div class="duas-colunas">
+
+                        <label>
+                            Placa-mãe
+
+                            <input
+                                id="placaMae"
+                                type="text"
+                                placeholder="Ex: B550M"
+                            >
+                        </label>
+
+
+                        <label>
+                            Fonte
+
+                            <input
+                                id="fonte"
+                                type="text"
+                                placeholder="Ex: 650W"
+                            >
+                        </label>
+
+                    </div>
+
+
+                    <div class="duas-colunas">
+
+                        <label>
+                            Monitor
+
+                            <input
+                                id="monitor"
+                                type="text"
+                                placeholder="Ex: 24'' 144Hz"
+                            >
+                        </label>
+
+
+                        <label>
+                            Periféricos
+
+                            <input
+                                id="perifericos"
+                                type="text"
+                                placeholder="Ex: Teclado + Mouse"
+                            >
+                        </label>
+
+                    </div>
+
+
+                    <label>
+                        Preço aproximado
+
+                        <input
+                            id="preco"
+                            type="number"
+                            placeholder="6500"
+                        >
+                    </label>
+
+
+                    <div class="acoes">
+
+                        <button
+                            type="submit"
+                            class="btn principal"
+                        >
+                            Calcular e salvar
+                        </button>
+
+                        <button
+                            type="button"
+                            id="limpar"
+                            class="btn secundario"
+                        >
+                            Limpar
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- PREVIEW -->
+                <div class="card preview">
+
+                    <div class="preview-top">
+
+                        <div>
+                            <small>PREVIEW</small>
+
+                            <h3 id="previewNome">
+                                Seu setup
+                            </h3>
+                        </div>
+
+                        <strong id="previewNota">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="circulo">
+
+                        <strong id="nota">
+                            —
+                        </strong>
+
+                        <span>
+                            /10
+                        </span>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <label>
+                            🎮 Gaming
+
+                            <b id="gaming">
+                                —
+                            </b>
+                        </label>
+
+                        <div class="barra-metrica">
+                            <span id="gamingBar"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <label>
+                            💼 Trabalho
+
+                            <b id="trabalho">
+                                —
+                            </b>
+                        </label>
+
+                        <div class="barra-metrica">
+                            <span id="trabalhoBar"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <label>
+                            ✨ Visual
+
+                            <b id="visual">
+                                —
+                            </b>
+                        </label>
+
+                        <div class="barra-metrica">
+                            <span id="visualBar"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="preco-preview">
+
+                        <span>
+                            Valor aproximado
+                        </span>
+
+                        <strong id="precoPreview">
+                            R$ 0,00
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RANKING -->
+        <section id="ranking" class="ranking">
+
+            <div class="titulo-secao">
+
+                <div>
+
+                    <small>COMUNIDADE</small>
+
+                    <h2>
+                        Ranking de setups
+                    </h2>
+
+                </div>
+
+                <button
+                    id="apagarTudo"
+                    class="apagar"
+                >
+                    Apagar meus setups
+                </button>
+
+            </div>
+
+
+            <div
+                id="listaSetups"
+                class="lista"
+            >
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <strong>
+            RateMySetup
+        </strong>
+
+        <span>
+            Feito para quem gosta de montar PC.
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
