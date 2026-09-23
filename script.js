@@ -1,959 +1,581 @@
-// ========================================
-// RATEMYSETUP
-// JavaScript
-// ========================================
+```javascript
+document.addEventListener("DOMContentLoaded", function () {
+
+    // FORMULÁRIO
+    const nome = document.getElementById("nome");
+    const cpu = document.getElementById("cpu");
+    const gpu = document.getElementById("gpu");
+    const ram = document.getElementById("ram");
+    const storage = document.getElementById("storage");
+    const placaMae = document.getElementById("placaMae");
+    const fonte = document.getElementById("fonte");
+    const monitor = document.getElementById("monitor");
+    const perifericos = document.getElementById("perifericos");
+    const preco = document.getElementById("preco");
+
+    const salvarBtn = document.getElementById("salvarBtn");
+    const limparBtn = document.getElementById("limparBtn");
+    const apagarBtn = document.getElementById("apagarBtn");
+    const mensagemErro = document.getElementById("mensagemErro");
+
+    // PRÉVIA
+    const previewNome = document.getElementById("previewNome");
+    const previewCpu = document.getElementById("previewCpu");
+    const previewGpu = document.getElementById("previewGpu");
+    const previewRam = document.getElementById("previewRam");
+    const previewStorage = document.getElementById("previewStorage");
+    const previewMonitor = document.getElementById("previewMonitor");
+
+    const notaFinal = document.getElementById("notaFinal");
+    const notaGaming = document.getElementById("notaGaming");
+    const notaTrabalho = document.getElementById("notaTrabalho");
+    const notaVisual = document.getElementById("notaVisual");
+
+    const barraGaming = document.getElementById("barraGaming");
+    const barraTrabalho = document.getElementById("barraTrabalho");
+    const barraVisual = document.getElementById("barraVisual");
+
+    const temaBtn = document.getElementById("temaBtn");
+    const listaRanking = document.getElementById("listaRanking");
 
 
-// PEGAR ELEMENTOS
-const form = document.getElementById("setupForm");
+    // PONTOS DOS COMPONENTES
 
-const nome = document.getElementById("nome");
-const cpu = document.getElementById("cpu");
-const gpu = document.getElementById("gpu");
-const ram = document.getElementById("ram");
-const storage = document.getElementById("storage");
-const placaMae = document.getElementById("placaMae");
-const fonte = document.getElementById("fonte");
-const monitor = document.getElementById("monitor");
-const perifericos = document.getElementById("perifericos");
-const preco = document.getElementById("preco");
+    const pontosCPU = {
+        "ryzen5-5600": 6.5,
+        "ryzen5-7600": 7.5,
+        "ryzen5-7600x": 8,
+        "ryzen7-5700x": 7.5,
+        "ryzen7-7800x3d": 10,
+        "ryzen7-9700x": 9,
+        "ryzen9-7900x": 9.5,
+        "i3-12100f": 5.5,
+        "i5-12400f": 6.5,
+        "i5-13400f": 7.5,
+        "i5-14400f": 8,
+        "i5-14600k": 8.5,
+        "i7-13700k": 9,
+        "i7-14700k": 9.5,
+        "i9-14900k": 10
+    };
 
+    const pontosGPU = {
+        "gtx1650": 4.5,
+        "rtx3060": 6,
+        "rtx4060": 6.5,
+        "rtx4060ti": 7,
+        "rtx4070": 8,
+        "rtx4070super": 8.5,
+        "rtx4070ti": 9,
+        "rtx4080": 9.5,
+        "rtx4090": 10,
+        "rx6600": 5.5,
+        "rx7600": 6.5,
+        "rx7700xt": 8,
+        "rx7800xt": 8.5,
+        "rx7900xt": 9,
+        "rx7900xtx": 9.5
+    };
 
-// PREVIEW
-const previewNome = document.getElementById("previewNome");
-const previewNota = document.getElementById("previewNota");
+    const pontosRAM = {
+        "8": 4,
+        "16": 7,
+        "32": 9,
+        "64": 10,
+        "128": 10
+    };
 
-const nota = document.getElementById("nota");
+    const pontosStorage = {
+        "ssd480": 5,
+        "ssd1tb": 6.5,
+        "ssd2tb": 7,
+        "nvme1tb": 8,
+        "nvme2tb": 9,
+        "nvme4tb": 10
+    };
 
-const gaming = document.getElementById("gaming");
-const trabalho = document.getElementById("trabalho");
-const visual = document.getElementById("visual");
+    const pontosPlacaMae = {
+        "a520": 5,
+        "b450": 5.5,
+        "b550": 7,
+        "b650": 8,
+        "x670": 9,
+        "h610": 5,
+        "b660": 7,
+        "b760": 8,
+        "z690": 9,
+        "z790": 10
+    };
 
-const gamingBar = document.getElementById("gamingBar");
-const trabalhoBar = document.getElementById("trabalhoBar");
-const visualBar = document.getElementById("visualBar");
+    const pontosFonte = {
+        "500w": 5,
+        "550w": 6,
+        "600w": 6.5,
+        "650w": 7.5,
+        "750w": 8.5,
+        "850w": 9,
+        "1000w": 9.5,
+        "1200w": 10
+    };
 
-const precoPreview = document.getElementById("precoPreview");
+    const pontosMonitor = {
+        "1080p60": 5,
+        "1080p144": 7,
+        "1080p165": 7.5,
+        "1440p144": 8,
+        "1440p165": 8.5,
+        "1440p240": 9,
+        "4k60": 8.5,
+        "4k144": 10
+    };
 
-
-// ========================================
-// CALCULAR NOTA
-// ========================================
-
-function calcularNota() {
-
-    let notaGaming = 5;
-    let notaTrabalho = 5;
-    let notaVisual = 5;
-
-
-    const cpuTexto =
-        cpu.value.toLowerCase();
-
-    const gpuTexto =
-        gpu.value.toLowerCase();
-
-    const ramTexto =
-        ram.value.toLowerCase();
-
-    const perifericosTexto =
-        perifericos.value.toLowerCase();
-
-
-    // GPU
-
-    if (
-        gpuTexto.includes("4090") ||
-        gpuTexto.includes("4080") ||
-        gpuTexto.includes("5090") ||
-        gpuTexto.includes("5080")
-    ) {
-
-        notaGaming += 4;
-
-    }
-
-    else if (
-        gpuTexto.includes("4070") ||
-        gpuTexto.includes("5070") ||
-        gpuTexto.includes("7900") ||
-        gpuTexto.includes("7800")
-    ) {
-
-        notaGaming += 3.3;
-
-    }
-
-    else if (
-        gpuTexto.includes("4060") ||
-        gpuTexto.includes("5060") ||
-        gpuTexto.includes("7600") ||
-        gpuTexto.includes("3070")
-    ) {
-
-        notaGaming += 2.7;
-
-    }
-
-    else if (
-        gpuTexto.includes("3060") ||
-        gpuTexto.includes("6600") ||
-        gpuTexto.includes("2060")
-    ) {
-
-        notaGaming += 2;
-
-    }
-
-    else if (gpuTexto !== "") {
-
-        notaGaming += 1;
-
-    }
+    const pontosPerifericos = {
+        "basico": 5,
+        "intermediario": 7,
+        "gamer": 8.5,
+        "premium": 10
+    };
 
 
-    // CPU
+    // TEXTO DA OPÇÃO
 
-    if (
-        cpuTexto.includes("i9") ||
-        cpuTexto.includes("ryzen 9") ||
-        cpuTexto.includes("i7") ||
-        cpuTexto.includes("ryzen 7")
-    ) {
+    function textoSelecionado(select) {
+        if (select.value === "") {
+            return "—";
+        }
 
-        notaGaming += 0.5;
-        notaTrabalho += 2;
-
-    }
-
-    else if (
-        cpuTexto.includes("i5") ||
-        cpuTexto.includes("ryzen 5")
-    ) {
-
-        notaGaming += 0.3;
-        notaTrabalho += 1.4;
-
-    }
-
-    else if (cpuTexto !== "") {
-
-        notaTrabalho += 0.7;
-
-    }
-
-
-    // RAM
-
-    if (
-        ramTexto.includes("64") ||
-        ramTexto.includes("32")
-    ) {
-
-        notaGaming += 0.5;
-        notaTrabalho += 1.1;
-
-    }
-
-    else if (ramTexto.includes("16")) {
-
-        notaGaming += 0.3;
-        notaTrabalho += 0.7;
-
-    }
-
-    else if (ramTexto !== "") {
-
-        notaTrabalho += 0.3;
-
+        return select.options[select.selectedIndex].text;
     }
 
 
-    // ARMAZENAMENTO
+    // LIMITAR NOTA
 
-    if (storage.value !== "") {
+    function limitarNota(valor) {
+        if (valor < 0) {
+            return 0;
+        }
 
-        notaTrabalho += 0.3;
+        if (valor > 10) {
+            return 10;
+        }
 
+        return valor;
     }
 
 
-    // MONITOR
+    // CALCULAR NOTA
 
-    if (monitor.value !== "") {
+    function calcularNota() {
 
-        notaVisual += 1;
+        const cpuPontos = pontosCPU[cpu.value] || 0;
+        const gpuPontos = pontosGPU[gpu.value] || 0;
+        const ramPontos = pontosRAM[ram.value] || 0;
+        const storagePontos = pontosStorage[storage.value] || 0;
+        const placaMaePontos = pontosPlacaMae[placaMae.value] || 0;
+        const fontePontos = pontosFonte[fonte.value] || 0;
+        const monitorPontos = pontosMonitor[monitor.value] || 0;
+        const perifericosPontos = pontosPerifericos[perifericos.value] || 0;
 
+        let gaming =
+            gpuPontos * 0.55 +
+            cpuPontos * 0.25 +
+            ramPontos * 0.10 +
+            monitorPontos * 0.10;
+
+        let trabalho =
+            cpuPontos * 0.40 +
+            ramPontos * 0.25 +
+            storagePontos * 0.15 +
+            gpuPontos * 0.10 +
+            placaMaePontos * 0.10;
+
+        let visual =
+            perifericosPontos * 0.45 +
+            monitorPontos * 0.35 +
+            placaMaePontos * 0.10 +
+            fontePontos * 0.10;
+
+        let final =
+            gaming * 0.45 +
+            trabalho * 0.30 +
+            visual * 0.25;
+
+        gaming = limitarNota(gaming);
+        trabalho = limitarNota(trabalho);
+        visual = limitarNota(visual);
+        final = limitarNota(final);
+
+        notaGaming.textContent = gaming.toFixed(1);
+        notaTrabalho.textContent = trabalho.toFixed(1);
+        notaVisual.textContent = visual.toFixed(1);
+        notaFinal.textContent = final.toFixed(1);
+
+        barraGaming.style.width = (gaming * 10) + "%";
+        barraTrabalho.style.width = (trabalho * 10) + "%";
+        barraVisual.style.width = (visual * 10) + "%";
+
+        return {
+            gaming: gaming,
+            trabalho: trabalho,
+            visual: visual,
+            final: final
+        };
     }
 
 
-    // VISUAL
+    // ATUALIZAR PRÉVIA
 
-    if (
-        perifericosTexto.includes("rgb") ||
-        perifericosTexto.includes("branco") ||
-        perifericosTexto.includes("white") ||
-        perifericosTexto.includes("clean")
-    ) {
+    function atualizarPreview() {
 
-        notaVisual += 1.5;
+        previewNome.textContent = nome.value.trim() || "Seu Setup";
+        previewCpu.textContent = textoSelecionado(cpu);
+        previewGpu.textContent = textoSelecionado(gpu);
 
+        if (ram.value !== "") {
+            previewRam.textContent = ram.value + " GB";
+        } else {
+            previewRam.textContent = "—";
+        }
+
+        previewStorage.textContent = textoSelecionado(storage);
+        previewMonitor.textContent = textoSelecionado(monitor);
+
+        if (
+            cpu.value !== "" &&
+            gpu.value !== "" &&
+            ram.value !== "" &&
+            storage.value !== "" &&
+            placaMae.value !== "" &&
+            fonte.value !== "" &&
+            monitor.value !== "" &&
+            perifericos.value !== ""
+        ) {
+            calcularNota();
+        } else {
+            notaFinal.textContent = "0.0";
+            notaGaming.textContent = "0.0";
+            notaTrabalho.textContent = "0.0";
+            notaVisual.textContent = "0.0";
+
+            barraGaming.style.width = "0%";
+            barraTrabalho.style.width = "0%";
+            barraVisual.style.width = "0%";
+        }
     }
 
 
-    if (placaMae.value !== "") {
+    // VERIFICAR FORMULÁRIO
 
-        notaVisual += 0.3;
+    function formularioValido() {
 
+        if (nome.value.trim() === "") {
+            mensagemErro.textContent = "Digite um nome para o setup.";
+            return false;
+        }
+
+        if (cpu.value === "") {
+            mensagemErro.textContent = "Selecione um processador.";
+            return false;
+        }
+
+        if (gpu.value === "") {
+            mensagemErro.textContent = "Selecione uma placa de vídeo.";
+            return false;
+        }
+
+        if (ram.value === "") {
+            mensagemErro.textContent = "Selecione a memória RAM.";
+            return false;
+        }
+
+        if (placaMae.value === "") {
+            mensagemErro.textContent = "Selecione uma placa-mãe.";
+            return false;
+        }
+
+        if (storage.value === "") {
+            mensagemErro.textContent = "Selecione o armazenamento.";
+            return false;
+        }
+
+        if (fonte.value === "") {
+            mensagemErro.textContent = "Selecione a fonte.";
+            return false;
+        }
+
+        if (monitor.value === "") {
+            mensagemErro.textContent = "Selecione o monitor.";
+            return false;
+        }
+
+        if (perifericos.value === "") {
+            mensagemErro.textContent = "Selecione os periféricos.";
+            return false;
+        }
+
+        if (preco.value === "" || Number(preco.value) <= 0) {
+            mensagemErro.textContent = "Digite um preço válido.";
+            return false;
+        }
+
+        mensagemErro.textContent = "";
+
+        return true;
     }
 
 
-    if (fonte.value !== "") {
+    // SALVAR SETUP
 
-        notaTrabalho += 0.2;
+    function salvarSetup() {
 
-    }
+        if (!formularioValido()) {
+            return;
+        }
 
+        const notas = calcularNota();
 
-    // LIMITAR ENTRE 1 E 10
+        const setup = {
+            id: Date.now(),
+            nome: nome.value.trim(),
+            cpu: textoSelecionado(cpu),
+            gpu: textoSelecionado(gpu),
+            ram: ram.value + " GB",
+            storage: textoSelecionado(storage),
+            placaMae: textoSelecionado(placaMae),
+            fonte: textoSelecionado(fonte),
+            monitor: textoSelecionado(monitor),
+            perifericos: textoSelecionado(perifericos),
+            preco: Number(preco.value),
+            gaming: notas.gaming,
+            trabalho: notas.trabalho,
+            visual: notas.visual,
+            nota: notas.final
+        };
 
-    notaGaming =
-        Math.min(10, Math.max(1, notaGaming));
-
-    notaTrabalho =
-        Math.min(10, Math.max(1, notaTrabalho));
-
-    notaVisual =
-        Math.min(10, Math.max(1, notaVisual));
-
-
-    // NOTA FINAL
-
-    const notaFinal =
-        (
-            notaGaming * 0.45 +
-            notaTrabalho * 0.30 +
-            notaVisual * 0.25
+        let setups = JSON.parse(
+            localStorage.getItem("ratemysetup")
         );
 
-
-    atualizarPreview(
-        notaFinal,
-        notaGaming,
-        notaTrabalho,
-        notaVisual
-    );
-}
-
-
-// ========================================
-// ATUALIZAR PREVIEW
-// ========================================
-
-function atualizarPreview(
-    notaFinal,
-    notaGaming,
-    notaTrabalho,
-    notaVisual
-) {
-
-    previewNome.textContent =
-        nome.value || "Seu setup";
-
-
-    nota.textContent =
-        notaFinal.toFixed(1);
-
-
-    previewNota.textContent =
-        notaFinal.toFixed(1) + "/10";
-
-
-    gaming.textContent =
-        notaGaming.toFixed(1);
-
-
-    trabalho.textContent =
-        notaTrabalho.toFixed(1);
-
-
-    visual.textContent =
-        notaVisual.toFixed(1);
-
-
-    gamingBar.style.width =
-        (notaGaming * 10) + "%";
-
-
-    trabalhoBar.style.width =
-        (notaTrabalho * 10) + "%";
-
-
-    visualBar.style.width =
-        (notaVisual * 10) + "%";
-
-
-    precoPreview.textContent =
-        formatarPreco(preco.value);
-}
-
-
-// ========================================
-// FORMATAR PREÇO
-// ========================================
-
-function formatarPreco(valor) {
-
-    const numero =
-        Number(valor) || 0;
-
-
-    return numero.toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
+        if (!Array.isArray(setups)) {
+            setups = [];
         }
-    );
-}
-
-
-// ========================================
-// PEGAR DADOS DO FORMULÁRIO
-// ========================================
-
-function pegarSetup() {
-
-    return {
-
-        nome: nome.value,
-
-        cpu: cpu.value,
-
-        gpu: gpu.value,
-
-        ram: ram.value,
-
-        storage: storage.value,
-
-        placaMae: placaMae.value,
-
-        fonte: fonte.value,
-
-        monitor: monitor.value,
-
-        perifericos: perifericos.value,
-
-        preco: Number(preco.value) || 0
-
-    };
-
-}
-
-
-// ========================================
-// CALCULAR NOTA DE UM SETUP
-// ========================================
-
-function calcularNotaSetup(setup) {
-
-    let g = 5;
-    let t = 5;
-    let v = 5;
-
-
-    const cpuTexto =
-        setup.cpu.toLowerCase();
-
-    const gpuTexto =
-        setup.gpu.toLowerCase();
-
-
-    // GPU
-
-    if (
-        gpuTexto.includes("4090") ||
-        gpuTexto.includes("4080") ||
-        gpuTexto.includes("5090") ||
-        gpuTexto.includes("5080")
-    ) {
-
-        g += 4;
-
-    }
-
-    else if (
-        gpuTexto.includes("4070") ||
-        gpuTexto.includes("5070") ||
-        gpuTexto.includes("7900") ||
-        gpuTexto.includes("7800")
-    ) {
-
-        g += 3.3;
-
-    }
-
-    else if (
-        gpuTexto.includes("4060") ||
-        gpuTexto.includes("5060") ||
-        gpuTexto.includes("7600") ||
-        gpuTexto.includes("3070")
-    ) {
-
-        g += 2.7;
-
-    }
-
-    else if (
-        gpuTexto.includes("3060") ||
-        gpuTexto.includes("6600") ||
-        gpuTexto.includes("2060")
-    ) {
-
-        g += 2;
-
-    }
-
-    else if (gpuTexto !== "") {
-
-        g += 1;
-
-    }
-
-
-    // CPU
-
-    if (
-        cpuTexto.includes("i9") ||
-        cpuTexto.includes("i7") ||
-        cpuTexto.includes("ryzen 9") ||
-        cpuTexto.includes("ryzen 7")
-    ) {
-
-        g += 0.5;
-        t += 2;
-
-    }
-
-    else if (
-        cpuTexto.includes("i5") ||
-        cpuTexto.includes("ryzen 5")
-    ) {
-
-        g += 0.3;
-        t += 1.4;
-
-    }
-
-    else if (cpuTexto !== "") {
-
-        t += 0.7;
-
-    }
-
-
-    // RAM
-
-    const ramTexto =
-        setup.ram.toLowerCase();
-
-
-    if (
-        ramTexto.includes("32") ||
-        ramTexto.includes("64")
-    ) {
-
-        g += 0.5;
-        t += 1.1;
-
-    }
-
-    else if (ramTexto.includes("16")) {
-
-        g += 0.3;
-        t += 0.7;
-
-    }
-
-
-    if (setup.storage !== "") {
-
-        t += 0.3;
-
-    }
-
-
-    if (setup.monitor !== "") {
-
-        v += 1;
-
-    }
-
-
-    const perif =
-        setup.perifericos.toLowerCase();
-
-
-    if (
-        perif.includes("rgb") ||
-        perif.includes("branco") ||
-        perif.includes("white") ||
-        perif.includes("clean")
-    ) {
-
-        v += 1.5;
-
-    }
-
-
-    if (setup.placaMae !== "") {
-
-        v += 0.3;
-
-    }
-
-
-    if (setup.fonte !== "") {
-
-        t += 0.2;
-
-    }
-
-
-    g = Math.min(10, g);
-    t = Math.min(10, t);
-    v = Math.min(10, v);
-
-
-    const final =
-        g * 0.45 +
-        t * 0.30 +
-        v * 0.25;
-
-
-    return {
-
-        gaming: g,
-
-        trabalho: t,
-
-        visual: v,
-
-        nota: final
-
-    };
-
-}
-
-
-// ========================================
-// SALVAR SETUP
-// ========================================
-
-form.addEventListener(
-    "submit",
-    function(event) {
-
-        event.preventDefault();
-
-
-        const setup =
-            pegarSetup();
-
-
-        if (setup.nome === "") {
-
-            alert(
-                "Digite um nome para o setup."
-            );
-
-            return;
-
-        }
-
-
-        const setups =
-            JSON.parse(
-                localStorage.getItem(
-                    "ratemysetup"
-                )
-            ) || [];
-
 
         setups.push(setup);
-
 
         localStorage.setItem(
             "ratemysetup",
             JSON.stringify(setups)
         );
 
+        alert("Setup salvo com sucesso! 🚀");
 
-        document.getElementById(
-            "status"
-        ).textContent =
-            "Salvo com sucesso!";
-
-
+        limparFormulario();
         renderizarSetups();
-
-
-        document.getElementById(
-            "ranking"
-        ).scrollIntoView({
-            behavior: "smooth"
-        });
-
     }
-);
 
 
-// ========================================
-// RENDERIZAR RANKING
-// ========================================
+    // ESCAPAR TEXTO
 
-function renderizarSetups() {
+    function escapar(texto) {
+        return String(texto)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
-    const lista =
-        document.getElementById(
-            "listaSetups"
+
+    // RANKING
+
+    function renderizarSetups() {
+
+        let setups = JSON.parse(
+            localStorage.getItem("ratemysetup")
         );
 
+        if (!Array.isArray(setups)) {
+            setups = [];
+        }
 
-    const setups =
-        JSON.parse(
-            localStorage.getItem(
-                "ratemysetup"
-            )
-        ) || [];
-
-
-    if (setups.length === 0) {
-
-        lista.innerHTML = `
-        
-            <div class="vazio">
-
-                <strong>
-                    Nenhum setup cadastrado
-                </strong>
-
-                Crie o primeiro setup acima!
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    // Criar notas
-
-    const setupsComNota =
-        setups.map(function(setup) {
-
-            const avaliacao =
-                calcularNotaSetup(setup);
-
-
-            return {
-
-                ...setup,
-
-                ...avaliacao
-
-            };
-
+        setups.sort(function (a, b) {
+            return b.nota - a.nota;
         });
 
+        listaRanking.innerHTML = "";
 
-    // Ordenar pela nota
+        if (setups.length === 0) {
 
-    setupsComNota.sort(
-        (a, b) =>
-            b.nota - a.nota
-    );
+            const vazio = document.createElement("div");
 
+            vazio.className = "ranking-vazio";
 
-    lista.innerHTML =
-        setupsComNota.map(
-            function(setup, index) {
+            vazio.innerHTML =
+                "<div>🖥️</div>" +
+                "<h3>Nenhum setup ainda</h3>" +
+                "<p>Crie seu primeiro setup para aparecer aqui.</p>";
 
-                return `
-
-                <article class="setup-card">
-
-                    <div class="setup-top">
-
-                        <div>
-
-                            <h3>
-                                ${escapar(
-                                    setup.nome
-                                )}
-                            </h3>
-
-                            <div class="posicao">
-                                #${index + 1} no ranking
-                            </div>
-
-                        </div>
-
-                        <div class="setup-nota">
-                            ${setup.nota.toFixed(1)}
-                        </div>
-
-                    </div>
-
-
-                    <div class="tags">
-
-                        ${criarTag(setup.cpu)}
-
-                        ${criarTag(setup.gpu)}
-
-                        ${criarTag(setup.ram)}
-
-                        ${criarTag(setup.storage)}
-
-                    </div>
-
-
-                    <div class="setup-bottom">
-
-                        <span>
-                            🎮 ${setup.gaming.toFixed(1)}
-                            ·
-                            💼 ${setup.trabalho.toFixed(1)}
-                        </span>
-
-                        <strong>
-                            ${formatarPreco(
-                                setup.preco
-                            )}
-                        </strong>
-
-                    </div>
-
-                </article>
-
-                `;
-
-            }
-        ).join("");
-
-}
-
-
-// ========================================
-// CRIAR TAG
-// ========================================
-
-function criarTag(texto) {
-
-    if (!texto) {
-
-        return "";
-
-    }
-
-
-    return `
-    
-        <span class="tag">
-            ${escapar(texto)}
-        </span>
-
-    `;
-
-}
-
-
-// ========================================
-// SEGURANÇA DO TEXTO
-// ========================================
-
-function escapar(texto) {
-
-    return String(texto)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-}
-
-
-// ========================================
-// LIMPAR FORMULÁRIO
-// ========================================
-
-document.getElementById(
-    "limpar"
-).addEventListener(
-    "click",
-    function() {
-
-        form.reset();
-
-        document.getElementById(
-            "status"
-        ).textContent =
-            "Novo setup";
-
-
-        calcularNota();
-
-    }
-);
-
-
-// ========================================
-// APAGAR TODOS OS SETUPS
-// ========================================
-
-document.getElementById(
-    "apagarTudo"
-).addEventListener(
-    "click",
-    function() {
-
-        const confirmar =
-            confirm(
-                "Tem certeza que deseja apagar todos os setups?"
-            );
-
-
-        if (!confirmar) {
+            listaRanking.appendChild(vazio);
 
             return;
-
         }
 
+        setups.forEach(function (setup, index) {
 
-        localStorage.removeItem(
-            "ratemysetup"
+            const item = document.createElement("div");
+
+            item.className = "ranking-item";
+
+            const posicao = document.createElement("div");
+            posicao.className = "ranking-posicao";
+            posicao.textContent = "#" + (index + 1);
+
+            const informacoes = document.createElement("div");
+            informacoes.className = "ranking-info";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = setup.nome;
+
+            const componentes = document.createElement("p");
+            componentes.textContent =
+                setup.cpu + " • " +
+                setup.gpu + " • " +
+                setup.ram;
+
+            const valor = document.createElement("p");
+            valor.textContent =
+                "R$ " +
+                Number(setup.preco).toLocaleString("pt-BR");
+
+            const nota = document.createElement("div");
+            nota.className = "ranking-nota";
+
+            const numero = document.createElement("strong");
+            numero.textContent = Number(setup.nota).toFixed(1);
+
+            const total = document.createElement("span");
+            total.textContent = "/10";
+
+            nota.appendChild(numero);
+            nota.appendChild(total);
+
+            informacoes.appendChild(titulo);
+            informacoes.appendChild(componentes);
+            informacoes.appendChild(valor);
+
+            item.appendChild(posicao);
+            item.appendChild(informacoes);
+            item.appendChild(nota);
+
+            listaRanking.appendChild(item);
+        });
+    }
+
+
+    // LIMPAR
+
+    function limparFormulario() {
+
+        nome.value = "";
+        cpu.value = "";
+        gpu.value = "";
+        ram.value = "";
+        storage.value = "";
+        placaMae.value = "";
+        fonte.value = "";
+        monitor.value = "";
+        perifericos.value = "";
+        preco.value = "";
+
+        mensagemErro.textContent = "";
+
+        atualizarPreview();
+    }
+
+
+    // APAGAR TODOS
+
+    function apagarTodos() {
+
+        const confirmar = confirm(
+            "Tem certeza que deseja apagar todos os seus setups?"
         );
 
+        if (!confirmar) {
+            return;
+        }
+
+        localStorage.removeItem("ratemysetup");
 
         renderizarSetups();
-
     }
-);
 
 
-// ========================================
-// MODO CLARO / ESCURO
-// ========================================
+    // MODO ESCURO / CLARO
 
-const temaBtn =
-    document.getElementById(
-        "temaBtn"
-    );
+    function atualizarTema() {
 
+        const tema = localStorage.getItem("tema");
 
-temaBtn.addEventListener(
-    "click",
-    function() {
+        if (tema === "claro") {
+            document.body.classList.add("claro");
+            temaBtn.textContent = "🌙";
+        } else {
+            document.body.classList.remove("claro");
+            temaBtn.textContent = "☀️";
+        }
+    }
 
-        document.body.classList.toggle(
-            "claro"
-        );
+    temaBtn.addEventListener("click", function () {
 
+        const modoClaro =
+            document.body.classList.toggle("claro");
 
-        if (
-            document.body.classList.contains(
-                "claro"
-            )
-        ) {
-
-            temaBtn.textContent =
-                "🌙";
-
-
-            localStorage.setItem(
-                "tema",
-                "claro"
-            );
-
+        if (modoClaro) {
+            localStorage.setItem("tema", "claro");
+        } else {
+            localStorage.setItem("tema", "escuro");
         }
 
-        else {
-
-            temaBtn.textContent =
-                "☀️";
+        atualizarTema();
+    });
 
 
-            localStorage.setItem(
-                "tema",
-                "escuro"
-            );
+    // BOTÕES
 
-        }
-
-    }
-);
+    salvarBtn.addEventListener("click", salvarSetup);
+    limparBtn.addEventListener("click", limparFormulario);
+    apagarBtn.addEventListener("click", apagarTodos);
 
 
-// ========================================
-// CARREGAR TEMA
-// ========================================
+    // ATUALIZAR PRÉVIA
 
-if (
-    localStorage.getItem("tema")
-    ===
-    "claro"
-) {
+    const campos = [
+        nome,
+        cpu,
+        gpu,
+        ram,
+        storage,
+        placaMae,
+        fonte,
+        monitor,
+        perifericos,
+        preco
+    ];
 
-    document.body.classList.add(
-        "claro"
-    );
+    campos.forEach(function (campo) {
 
-    temaBtn.textContent =
-        "🌙";
+        campo.addEventListener("input", atualizarPreview);
+        campo.addEventListener("change", atualizarPreview);
 
-}
-
-
-// ========================================
-// ATUALIZAR PREVIEW ENQUANTO DIGITA
-// ========================================
-
-const campos = [
-
-    nome,
-    cpu,
-    gpu,
-    ram,
-    storage,
-    placaMae,
-    fonte,
-    monitor,
-    perifericos,
-    preco
-
-];
+    });
 
 
-campos.forEach(
-    function(campo) {
+    // INICIAR SITE
 
-        campo.addEventListener(
-            "input",
-            calcularNota
-        );
+    atualizarTema();
+    atualizarPreview();
+    renderizarSetups();
 
-    }
-);
-
-
-// ========================================
-// INICIAR
-// ========================================
-
-calcularNota();
-
-renderizarSetups();
+});
+```
