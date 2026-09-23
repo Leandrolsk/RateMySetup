@@ -1,5 +1,5 @@
 ```javascript
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("load", function () {
 
     // FORMULÁRIO
     const nome = document.getElementById("nome");
